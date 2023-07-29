@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -14,14 +15,28 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
-    @PostMapping("/add")
-    public String add(@RequestBody Student student){
+
+    @PostMapping(value = "/add")
+    public String add(@RequestBody Student student) {
         studentService.saveStudent(student);
         return "new Student is added";
     }
-    @GetMapping("/getAll")
-    public List<Student> getAllStudents(){
+
+    @GetMapping(value = "/getAll")
+    public List<Student> getAllStudents() {
         return studentService.getAllStudent();
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public String deleteStudent(@PathVariable Long id) {
+        Student student = studentService.getStudent(Integer.parseInt(id.toString()));
+        if(student !=null) {
+            studentService.deleteStudent(student);
+            return "student Deleted with Id " + id;
+        }else {
+            return "student with Id " + id + " not Found";
+
+        }
     }
 
 }
