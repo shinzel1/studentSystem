@@ -28,8 +28,8 @@ public class StudentController {
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public String deleteStudent(@PathVariable Long id) {
-        Student student = studentService.getStudent(Integer.parseInt(id.toString()));
+    public String deleteStudent(@PathVariable Integer id) {
+        Student student = studentService.getStudent(id);
         if(student !=null) {
             studentService.deleteStudent(student);
             return "student Deleted with Id " + id;
